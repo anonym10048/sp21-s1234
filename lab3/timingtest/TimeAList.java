@@ -24,9 +24,9 @@ public class TimeAList {
     public static void timeAListConstruction() {
         // TODO: YOUR CODE HERE
         /** Instantiate the four required ALists. */
-        AList ns = new AList<Integer>();
-        AList times = new AList<Double>();
-        AList op = new AList<Double>();
+        AList<Integer> ns = new AList();
+        AList<Double> times = new AList();
+        AList<Integer> op = new AList();
 
         AList test = new AList<Integer>();
 
