@@ -17,30 +17,27 @@ public class TimeAList {
         }
     }
 
-    public static void main(String[] args) {
-        timeAListConstruction();
-    }
+    public static void main(String[] args) { timeAListConstruction(); }
 
     public static void timeAListConstruction() {
         // TODO: YOUR CODE HERE
-        AList<Integer> N = new AList<>();
         AList<Integer> Ns = new AList<>();
         AList<Double> times = new AList<>();
         AList<Integer> opCounts = new AList<>();
 
-        Stopwatch sw = new Stopwatch();
-        int tick = 0;
-        int ops = 0;
-        for (int i = 0; i < 1024000; i += 1) {
-            N.addLast(i);
-            ops += 1;
-            if (N.size() == Math.pow(2, tick) * 1000) {
-                Ns.addLast(N.size());
-                times.addLast(sw.elapsedTime());
-                opCounts.addLast(ops);
-                tick += 1;
+        int[] a = new int[] {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000};
+        for (int i = 0; i < 8; i += 1) {
+            Ns.addLast(a[i]);
+            opCounts.addLast(a[i]);
+
+            AList<Integer> b = new AList<>();
+            Stopwatch sw = new Stopwatch();
+            for (int j = 0; j < Ns.get(i); j += 1) {
+                b.addLast(7);
             }
+            times.addLast(sw.elapsedTime());
         }
+
         printTimingTable(Ns, times, opCounts);
     }
 }
