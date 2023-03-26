@@ -1,4 +1,5 @@
 package timingtest;
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stopwatch;
 
 /**
@@ -22,29 +23,36 @@ public class TimeSLList {
     }
 
     public static void timeGetLast() {
-        AList<Integer> Ns = new AList<>();
-        AList<Double> times = new AList<>();
-        AList<Integer> opCounts = new AList<>();
-        int testSLListLength = 1000;
-        for (int p = 0; p < 8; p++) {
-            if (p > 0) {
-                testSLListLength *= 2;
+        // TODO: YOUR CODE HERE
+        /** Instantiate the three required AList. */
+        AList ns = new AList<Integer>();
+        AList times = new AList<Double>();
+        AList op = new AList<Integer>();
+
+        /** SLList for test. */
+        SLList test = new SLList<Integer>();
+
+        /** Finish n and op AList. */
+        int opNum = 10000;
+        for (int listLen = 1000; listLen <= 128000; listLen *= 2) {
+            ns.addLast(listLen);
+            op.addLast(opNum);
+
+            /** Construct a SSList with listLen length. */
+            for (int i = 0; i < listLen; i += 1) {
+                test.addLast(1);
             }
-            Ns.addLast(testSLListLength);
-            SLList<Integer> testSLList = new SLList<>();
-            for (int i = 0; i < testSLListLength; i++) {
-                testSLList.addLast(1);
-            }
-            int M = 10000;
+
+            /** Record the time when call of getLast finished. */
             Stopwatch sw = new Stopwatch();
-            for (int j = 0; j < M; j++) {
-                testSLList.getLast();
+            for (int i = 0; i < opNum; i += 1) {
+                test.getLast();
             }
             double timeInSeconds = sw.elapsedTime();
             times.addLast(timeInSeconds);
-            opCounts.addLast(M);
         }
-        printTimingTable(Ns, times, opCounts);
-    }
 
+        /** Generate timing table. */
+        printTimingTable(ns, times, op);
+    }
 }
