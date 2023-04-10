@@ -4,7 +4,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import edu.princeton.cs.algs4.StdRandom;
-
 import student.StudentArrayDeque;
 
 public class TestArrayDequeEC {
