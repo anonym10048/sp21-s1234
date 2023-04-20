@@ -55,7 +55,7 @@ public class TestGuitarString  {
     @Test
     public void testTicCalculations() {
         // Create a GuitarString of frequency 11025, which
-        // is a Deque of length 4. 
+        // is a Deque of length 4.
         GuitarString s = new GuitarString(11025);
         s.pluck();
 
@@ -63,7 +63,7 @@ public class TestGuitarString  {
         double s1 = s.sample();
         s.tic();
         double s2 = s.sample();
-        s.tic(); 
+        s.tic();
         double s3 = s.sample();
         s.tic();
         double s4 = s.sample();

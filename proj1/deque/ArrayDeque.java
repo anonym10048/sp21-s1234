@@ -2,13 +2,15 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T>{
     private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
 
-    /** Create an empty ArrayDeque. */
+    /**
+     * Create an empty ArrayDeque.
+     */
     public ArrayDeque() {
         items = (T[]) new Object[8];
         size = 0;
@@ -16,46 +18,60 @@ public class ArrayDeque<T> {
         nextLast = 4;
     }
 
-    /** Adds an item of type T in the nextFirst. */
+    public ArrayDeque(int capacity) {
+        items = (T[]) new Object[capacity];
+        size = 0;
+        nextLast = Math.round(capacity / 2);
+        nextFirst = nextLast - 1;
+    }
+
+    /**
+     * Adds an item of type T in the nextFirst.
+     */
     public void addFirst(T item) {
+        size += 1;
         checkFull();
 
         items[nextFirst] = item;
-        size += 1;
-
         nextFirst = subOne(nextFirst);
     }
 
-    /** Adds an item of type T in the nextLast. */
+    /**
+     * Adds an item of type T in the nextLast.
+     */
     public void addLast(T item) {
+        size += 1;
         checkFull();
 
         items[nextLast] = item;
-        size += 1;
-
         nextLast = addOne(nextLast);
     }
 
-    /** Returns true if deque is empty. */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /** Returns the number of items in the deque. */
+    /**
+     * Returns the number of items in the deque.
+     */
     public int size() {
         return size;
     }
 
-    /** Prints the items in the deque from first to last. */
+    public int capacity() {
+        return items.length;
+    }
+
+    /**
+     * Prints the items in the deque from first to last.
+     */
     public void printDeque() {
-        for (T i: items) {
+        for (T i : items) {
             System.out.print(i + " ");
         }
 
         System.out.println();
     }
 
-    /** Removes and returns the item after the nextFirst. */
+    /**
+     * Removes and returns the item after the nextFirst.
+     */
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -72,7 +88,9 @@ public class ArrayDeque<T> {
         return item;
     }
 
-    /** Removes and returns the item before the nextLast. */
+    /**
+     * Removes and returns the item before the nextLast.
+     */
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -89,21 +107,31 @@ public class ArrayDeque<T> {
         return item;
     }
 
-    /** Gets the item at the given index. */
+    /**
+     * Gets the item at the given index.
+     */
     public T get(int index) {
         return items[index];
     }
 
-    /** Return an iterator of deque. */
+    public void replace(T item, int index) {
+        items[index] = item;
+    }
+
+    /**
+     * Return an iterator of deque.
+     */
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
 
-    /** Returns whether the parameter o is equal to the Deque. */
+    /**
+     * Returns whether the parameter o is equal to the Deque.
+     */
     public boolean equals(Object o) {
-        if (o instanceof LinkedListDeque && ((LinkedListDeque<?>) o).size() == this.size()) {
-            for (int i = 0; i < size; i += 1){
-                if (items[i] != ((LinkedListDeque<?>) o).get(i)) {
+        if (o instanceof ArrayDeque && ((ArrayDeque<?>) o).size() == this.size()) {
+            for (int i = 0; i < size; i += 1) {
+                if (items[i] != ((ArrayDeque<?>) o).get(i)) {
                     return false;
                 }
             }
@@ -112,12 +140,16 @@ public class ArrayDeque<T> {
         return false;
     }
 
-    /** Add one in '0' to 'size' circularly. */
+    /**
+     * Add one in '0' to 'size' circularly.
+     */
     private int addOne(int index) {
         return (index + 1) % items.length;
     }
 
-    /** Sub one in '0' to 'size' circularly. */
+    /**
+     * Sub one in '0' to 'size' circularly.
+     */
     private int subOne(int index) {
         if (index == 0) {
             return items.length - 1;
@@ -126,26 +158,28 @@ public class ArrayDeque<T> {
         }
     }
 
-    /** Check if size equals to deque length. */
+    /**
+     * Check if size equals to deque length.
+     */
     private void checkFull() {
-        int capacity = items.length;
-
-        if (size == capacity) {
+        if (size > capacity()) {
             resize(size * 2);
         }
     }
 
     private void checkRedundancy() {
-        int capacity = items.length;
+        int capacity = capacity();
 
         if (capacity > 4 * size && capacity >= 16) {
             resize(capacity / 2);
         }
     }
 
-    /** Resize length of deque. */
+    /**
+     * Resize length of deque.
+     */
     private void resize(int capacity) {
-        T[] newItems =(T[]) new Object[capacity];
+        T[] newItems = (T[]) new Object[capacity];
 
         int index = addOne(nextFirst);
 
@@ -161,7 +195,7 @@ public class ArrayDeque<T> {
         items = newItems;
     }
 
-    private class ArrayDequeIterator implements  Iterator<T> {
+    private class ArrayDequeIterator implements Iterator<T> {
         private int index;
 
         public ArrayDequeIterator() {
