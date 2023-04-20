@@ -74,4 +74,16 @@ public class ArrayDequeTest {
 
     }
 
+    @Test
+    public void getTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        for (int i = 0; i < 5; i++) {
+            ad1.addFirst(i);
+        }
+
+        for (int i = 0; i < 5; i++) {
+            assertEquals((int)ad1.get(i), 4 - i);
+        }
+    }
+
 }

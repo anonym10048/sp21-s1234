@@ -3,7 +3,7 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>{
-    private T[] items;
+    private T[] items = (T[]) new Object[8];
     private int size;
     private int nextFirst;
     private int nextLast;
@@ -12,19 +12,18 @@ public class ArrayDeque<T> implements Deque<T>{
      * Create an empty ArrayDeque.
      */
     public ArrayDeque() {
-        items = (T[]) new Object[8];
         size = 0;
         nextFirst = 3;
         nextLast = 4;
     }
 
-    public ArrayDeque(int capacity) {
-        items = (T[]) new Object[capacity];
-        size = 0;
-        nextLast = Math.round(capacity / 2);
-        nextFirst = nextLast - 1;
-    }
+    public ArrayDeque(T item) {
+        items[3] = item;
 
+        size = 1;
+        nextFirst = 2;
+        nextLast = 4;
+    }
     /**
      * Adds an item of type T in the nextFirst.
      */
@@ -111,7 +110,14 @@ public class ArrayDeque<T> implements Deque<T>{
      * Gets the item at the given index.
      */
     public T get(int index) {
-        return items[index];
+        // pointer points to the previous
+        int itemIndex = addOne(nextFirst);
+        // find the Nth items
+        while (index > 0) {
+            itemIndex = addOne(itemIndex);
+            index -= 1;
+        }
+        return items[itemIndex];
     }
 
     public void replace(T item, int index) {
