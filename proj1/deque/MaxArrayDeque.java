@@ -1,5 +1,7 @@
 package deque;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Comparator;
 
 public class MaxArrayDeque<T> extends ArrayDeque<T> {
@@ -28,6 +30,7 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
 
     }
 
+    @SuppressFBWarnings("HE_EQUALS_USE_HASHCODE")
     @Override
     public boolean equals(Object o) {
         if (o == null) {

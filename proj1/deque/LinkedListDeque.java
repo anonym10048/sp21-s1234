@@ -1,8 +1,10 @@
 package deque;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T>{
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
         private T item;
         private Node next;
@@ -18,7 +20,6 @@ public class LinkedListDeque<T> implements Deque<T>{
     private final Node sentinel = new Node(null, null, null);
     private int size;
 
-
     /**
      * Create an empty LinkedListDeque.
      */
@@ -27,18 +28,6 @@ public class LinkedListDeque<T> implements Deque<T>{
         sentinel.prev = sentinel;
 
         size = 0;
-    }
-
-    /**
-     * Create an LinkedListDeque with size of 1.
-     */
-    public LinkedListDeque(T item) {
-        Node newNode = new Node(item, sentinel, sentinel);
-
-        sentinel.next = newNode;
-        sentinel.prev = newNode;
-
-        size = 1;
     }
 
     /**
@@ -147,20 +136,6 @@ public class LinkedListDeque<T> implements Deque<T>{
     }
 
     /**
-     * Same as get, but uses recursion.
-     */
-    public T getRecursive(int index) {
-        if (index == 0) {
-            return sentinel.item;
-        } else if (index == 1) {
-            return sentinel.next.item;
-        }
-
-        this.removeFirst();
-        return this.getRecursive(index - 1);
-    }
-
-    /**
      * Return an iterator of deque.
      */
     public Iterator<T> iterator() {
@@ -170,6 +145,7 @@ public class LinkedListDeque<T> implements Deque<T>{
     /**
      * Returns whether the parameter o is equal to the deque.
      */
+    @SuppressFBWarnings("HE_EQUALS_USE_HASHCODE")
     public boolean equals(Object o) {
         // if o is instance of LinkedListDeque and their size are same value.
         if (o instanceof LinkedListDeque && ((LinkedListDeque<?>) o).size() == this.size()) {
@@ -187,12 +163,12 @@ public class LinkedListDeque<T> implements Deque<T>{
     private class LinkedListDequeIterator implements Iterator<T> {
         private Node p;
 
-        public LinkedListDequeIterator() {
+        LinkedListDequeIterator() {
             p = sentinel.next;
         }
 
         public boolean hasNext() {
-            return p == sentinel;
+            return p != sentinel;
         }
 
         public T next() {

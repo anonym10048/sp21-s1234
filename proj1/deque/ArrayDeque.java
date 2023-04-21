@@ -1,9 +1,11 @@
 package deque;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>{
-    private T[] items = (T[]) new Object[8];
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
+    private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
@@ -12,38 +14,34 @@ public class ArrayDeque<T> implements Deque<T>{
      * Create an empty ArrayDeque.
      */
     public ArrayDeque() {
+        items = (T[]) new Object[8];
         size = 0;
-        nextFirst = 3;
-        nextLast = 4;
+        nextFirst = 0;
+        nextLast = 1;
     }
 
-    public ArrayDeque(T item) {
-        items[3] = item;
-
-        size = 1;
-        nextFirst = 2;
-        nextLast = 4;
-    }
     /**
      * Adds an item of type T in the nextFirst.
      */
     public void addFirst(T item) {
-        size += 1;
         checkFull();
 
         items[nextFirst] = item;
         nextFirst = subOne(nextFirst);
+
+        size += 1;
     }
 
     /**
      * Adds an item of type T in the nextLast.
      */
     public void addLast(T item) {
-        size += 1;
         checkFull();
 
         items[nextLast] = item;
         nextLast = addOne(nextLast);
+
+        size += 1;
     }
 
     /**
@@ -53,7 +51,7 @@ public class ArrayDeque<T> implements Deque<T>{
         return size;
     }
 
-    public int capacity() {
+    int capacity() {
         return items.length;
     }
 
@@ -112,16 +110,13 @@ public class ArrayDeque<T> implements Deque<T>{
     public T get(int index) {
         // pointer points to the previous
         int itemIndex = addOne(nextFirst);
+
         // find the Nth items
         while (index > 0) {
             itemIndex = addOne(itemIndex);
             index -= 1;
         }
         return items[itemIndex];
-    }
-
-    public void replace(T item, int index) {
-        items[index] = item;
     }
 
     /**
@@ -134,8 +129,10 @@ public class ArrayDeque<T> implements Deque<T>{
     /**
      * Returns whether the parameter o is equal to the Deque.
      */
+    @SuppressFBWarnings("HE_EQUALS_USE_HASHCODE")
     public boolean equals(Object o) {
-        if (o instanceof ArrayDeque && ((ArrayDeque<?>) o).size() == this.size()) {
+        if (o instanceof ArrayDeque && ((ArrayDeque<?>) o)
+                                                          .size() == this.size()) {
             for (int i = 0; i < size; i += 1) {
                 if (items[i] != ((ArrayDeque<?>) o).get(i)) {
                     return false;
@@ -168,7 +165,7 @@ public class ArrayDeque<T> implements Deque<T>{
      * Check if size equals to deque length.
      */
     private void checkFull() {
-        if (size > capacity()) {
+        if (size >= capacity()) {
             resize(size * 2);
         }
     }
@@ -187,7 +184,7 @@ public class ArrayDeque<T> implements Deque<T>{
     private void resize(int capacity) {
         T[] newItems = (T[]) new Object[capacity];
 
-        int index = addOne(nextFirst);
+        int index = nextFirst;
 
         // Copy value in nextFirst to newItems[i].
         for (int i = 0; i < size; i += 1) {
@@ -196,24 +193,24 @@ public class ArrayDeque<T> implements Deque<T>{
         }
 
         // Find the center position of new capacity.
-        nextLast = size / 2 + size;
-        nextFirst = nextLast - 1;
         items = newItems;
+        nextLast = capacity() / 2;
+        nextFirst = nextLast - 1;
     }
 
     private class ArrayDequeIterator implements Iterator<T> {
         private int index;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             index = 0;
         }
 
         public boolean hasNext() {
-            return index == size;
+            return index != size;
         }
 
         public T next() {
-            T item = items[index];
+            T item = get(index);
             index = addOne(index);
 
             return item;

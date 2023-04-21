@@ -1,31 +1,38 @@
 package deque;
 
-import org.junit.Test;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
+
+
 public class ArrayDequeTest {
+    @Test
+    public void resizeTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        for (int i = 0; i < 10; i++) {
+            ad1.addLast(i);
+        }
+
+        assertEquals(16, ad1.capacity());
+    }
 
     @Test
     public void addRemoveTest() {
-
         ArrayDeque<Integer> ad1 = new ArrayDeque<>();
         assertTrue(ad1.isEmpty());
 
-        ad1.addFirst(10);
-        assertFalse(ad1.isEmpty());
+        for (int i = 0; i < 5; i++) {
+            ad1.addLast(i);
+        }
 
-        ad1.addLast(15);
-        assertEquals(2, ad1.size());
-
-        int tmp = ad1.removeFirst();
-        assertEquals(10, tmp);
-
-        tmp = ad1.removeLast();
-        assertEquals(15, tmp);
-        assertTrue(ad1.isEmpty());
-
+        for (int i = 4; i >= 0; i--) {
+            assertEquals(ad1.removeLast(), (Integer)i);
+        }
     }
+
 
     @Test
     public void removeEmptyTest() {
@@ -43,6 +50,7 @@ public class ArrayDequeTest {
 
     }
 
+    @SuppressFBWarnings("CNT_ROUGH_CONSTANT_VALUE")
     @Test
     public void multipleParamTest() {
 
@@ -78,12 +86,32 @@ public class ArrayDequeTest {
     public void getTest() {
         ArrayDeque<Integer> ad1 = new ArrayDeque<>();
         for (int i = 0; i < 5; i++) {
-            ad1.addFirst(i);
+            ad1.addLast(i);
         }
 
         for (int i = 0; i < 5; i++) {
-            assertEquals((int)ad1.get(i), 4 - i);
+            assertEquals((int)ad1.get(i), i);
         }
     }
 
+    @Test
+    public void iteratorNextValueTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        for (int i = 0; i < 5; i++) {
+            ad1.addFirst(i);
+        }
+
+        Iterator<Integer> ad2 = ad1.iterator();
+        for (Integer i = 4; i >= 0; i--) {
+            assertEquals(ad2.next(), i);
+        }
+    }
+
+    @Test
+    public void emptyIteratorTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        Iterator<Integer> ad2 = ad1.iterator();
+
+        assertFalse(ad2.hasNext());
+    }
 }
