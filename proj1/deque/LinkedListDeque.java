@@ -1,7 +1,5 @@
 package deque;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
@@ -145,7 +143,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Returns whether the parameter o is equal to the deque.
      */
-    @SuppressFBWarnings("HE_EQUALS_USE_HASHCODE")
+
     public boolean equals(Object o) {
         // if o is instance of LinkedListDeque and their size are same value.
         if (o instanceof LinkedListDeque && ((LinkedListDeque<?>) o).size() == this.size()) {

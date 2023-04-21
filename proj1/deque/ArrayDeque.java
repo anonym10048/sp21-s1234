@@ -1,7 +1,5 @@
 package deque;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
@@ -129,7 +127,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Returns whether the parameter o is equal to the Deque.
      */
-    @SuppressFBWarnings("HE_EQUALS_USE_HASHCODE")
     public boolean equals(Object o) {
         if (o instanceof ArrayDeque && ((ArrayDeque<?>) o)
                                                           .size() == this.size()) {

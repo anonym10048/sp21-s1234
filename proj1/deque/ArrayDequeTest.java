@@ -1,7 +1,5 @@
 package deque;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -49,8 +47,7 @@ public class ArrayDequeTest {
         assertEquals(0, size);
 
     }
-
-    @SuppressFBWarnings("CNT_ROUGH_CONSTANT_VALUE")
+    
     @Test
     public void multipleParamTest() {
 

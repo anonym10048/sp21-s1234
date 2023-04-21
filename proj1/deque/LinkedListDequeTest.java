@@ -1,6 +1,5 @@
 package deque;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -77,7 +76,6 @@ public class LinkedListDequeTest {
         assertEquals(errorMsg, 0, size);
     }
 
-    @SuppressFBWarnings("CNT_ROUGH_CONSTANT_VALUE")
     @Test
     /* Check if you can create LinkedListDeque with different parameterized types*/
     public void multipleParamTest() {
