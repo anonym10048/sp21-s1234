@@ -49,10 +49,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return size;
     }
 
-    int capacity() {
-        return items.length;
-    }
-
     /**
      * Prints the items in the deque from first to last.
      */
@@ -127,6 +123,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Returns whether the parameter o is equal to the Deque.
      */
+    @Override
     public boolean equals(Object o) {
         if (o instanceof ArrayDeque && ((ArrayDeque<?>) o)
                                                           .size() == this.size()) {
@@ -162,13 +159,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
      * Check if size equals to deque length.
      */
     private void checkFull() {
-        if (size >= capacity()) {
+        if (size >= items.length) {
             resize(size * 2);
         }
     }
 
     private void checkRedundancy() {
-        int capacity = capacity();
+        int capacity = items.length;
 
         if (capacity > 4 * size && capacity >= 16) {
             resize(capacity / 2);
@@ -191,8 +188,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         // Find the center position of new capacity.
         items = newItems;
-        nextLast = capacity() / 2;
-        nextFirst = nextLast - 1;
+        nextFirst = capacity - 1;
+        nextLast = size;
     }
 
     private class ArrayDequeIterator implements Iterator<T> {

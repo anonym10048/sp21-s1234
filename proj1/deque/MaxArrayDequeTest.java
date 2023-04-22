@@ -10,11 +10,11 @@ public class MaxArrayDequeTest {
     public void maxWithoutComparatorTest() {
         MaxArrayDeque<Integer> a = new MaxArrayDeque<>(new IntComparator());
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             a.addLast(i);
         }
 
-        assertEquals((Integer) 4, a.max());
+        assertEquals((Integer) 5, a.max());
     }
 
     private static class IntComparator implements Comparator<Integer> {

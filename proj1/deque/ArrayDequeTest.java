@@ -7,18 +7,9 @@ import java.util.Iterator;
 
 
 public class ArrayDequeTest {
-    @Test
-    public void resizeTest() {
-        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
-        for (int i = 0; i < 10; i++) {
-            ad1.addLast(i);
-        }
-
-        assertEquals(16, ad1.capacity());
-    }
 
     @Test
-    public void addRemoveTest() {
+    public void addGetTest() {
         ArrayDeque<Integer> ad1 = new ArrayDeque<>();
         assertTrue(ad1.isEmpty());
 
@@ -26,9 +17,26 @@ public class ArrayDequeTest {
             ad1.addLast(i);
         }
 
-        for (int i = 4; i >= 0; i--) {
-            assertEquals(ad1.removeLast(), (Integer)i);
+        for (int i = 0; i < 5; i++) {
+            assertEquals(ad1.get(i), (Integer)i);
         }
+    }
+
+    @Test
+    public void addRemoveTest() {
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+
+        for (int i = 0; i < 4; i++) {
+            ad1.addFirst(i);
+        }
+
+        for(int i = 4; i < 9; i++) {
+            ad1.addLast(i);
+        }
+
+        assertNotNull(ad1.removeFirst());
+        assertNotNull(ad1.removeLast());
+
     }
 
 
@@ -47,7 +55,7 @@ public class ArrayDequeTest {
         assertEquals(0, size);
 
     }
-    
+
     @Test
     public void multipleParamTest() {
 

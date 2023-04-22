@@ -122,7 +122,17 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return p.item;
     }
 
+    /** Same as get, but uses recursion. */
+    public T getRecursive(int index) {
+        if (index == 0) {
+            return sentinel.item;
+        } else if (index == 1) {
+            return sentinel.next.item;
+        }
 
+        this.removeFirst();
+        return this.getRecursive(index - 1);
+    }
 
     public void replace(T item, int index) {
         Node p = sentinel;
@@ -146,6 +156,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
      * Returns whether the parameter o is equal to the deque.
      */
 
+    @Override
     public boolean equals(Object o) {
         // if o is instance of LinkedListDeque and their size are same value.
         if (o instanceof LinkedListDeque && ((LinkedListDeque<?>) o).size() == this.size()) {
