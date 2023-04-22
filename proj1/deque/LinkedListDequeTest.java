@@ -152,6 +152,11 @@ public class LinkedListDequeTest {
 
         assertTrue(lld1.equals(ad1));
         assertTrue(ad1.equals(lld1));
+
+        lld1.addFirst(5);
+        assertFalse(lld1.equals(ad1));
+        assertFalse(ad1.equals(lld1));
+
     }
 
     @Test

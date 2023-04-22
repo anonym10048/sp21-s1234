@@ -217,10 +217,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             Deque<?> d = (Deque<?>) o;
 
             if (d.size() == size) {
+                int index = addOne(nextFirst);
                 for (int i = 0; i < size; i += 1) {
-                    if (((Deque<?>) o).get(i) != get(i)) {
+                    if (!(items[index].equals(d.get(i)))) {
                         return false;
                     }
+                    index = addOne(index);
                 }
                 return true;
             }
