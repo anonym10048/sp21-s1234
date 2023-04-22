@@ -39,14 +39,15 @@ public class GuitarString {
      */
     public void tic() {
         double frontSample = buffer.removeFirst();
-        double nextSample = buffer.get(1);
-        double newSample = (frontSample + nextSample) / 2 * DECAY;
+        double nextSample = buffer.get(0);
+
+        double newSample = (frontSample + nextSample) * 0.5 * DECAY;
 
         buffer.addLast(newSample);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        return buffer.get(1);
+        return buffer.get(0);
     }
 }

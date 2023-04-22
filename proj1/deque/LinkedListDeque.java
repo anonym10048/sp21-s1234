@@ -131,11 +131,18 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     /** Same as get, but uses recursion. */
     public T getRecursive(int index) {
-        if (index == 0) {
-            return sentinel.next.item;
+        return getRecursiveHelper(index, sentinel.next);
+    }
+
+    private T getRecursiveHelper(int index, Node p) {
+        if (p == sentinel) {
+            return null;
         }
-        this.removeFirst();
-        return this.getRecursive(index - 1);
+        if (index == 0) {
+            return p.item;
+        }
+
+        return this.getRecursiveHelper(index - 1, p.next);
     }
 
     /**
@@ -144,25 +151,6 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
-    }
-
-    /**
-     * Returns whether the parameter o is equal to the deque.
-     */
-
-    @Override
-    public boolean equals(Object o) {
-        // if o is instance of LinkedListDeque and their size are same value.
-        if (((Deque<?>) o).size() == this.size()) {
-            for (int i = 0; i < size; i += 1) {
-                if (((Deque<?>) o).get(i) != this.get(i)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-        return false;
     }
 
     private class LinkedListDequeIterator implements Iterator<T> {
@@ -186,5 +174,35 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             return null;
         }
     }
+
+    /**
+     * Returns whether the parameter o is equal to the Deque.
+     */
+    @Override
+    public boolean equals(Object o) {
+        // if o is instance of Deque and their size are same.
+        if (o == null) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        if (o instanceof Deque) {
+            Deque<?> d = (Deque<?>) o;
+
+            if (d.size() == size) {
+                for (int i = 0; i < size; i += 1) {
+                    if (((Deque<?>) o).get(i) != get(i)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

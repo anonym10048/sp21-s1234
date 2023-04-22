@@ -117,7 +117,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             itemIndex = addOne(itemIndex);
             index -= 1;
         }
-        
+
         return items[itemIndex];
     }
 
@@ -127,22 +127,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
-    }
-
-    /**
-     * Returns whether the parameter o is equal to the Deque.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (((Deque<?>) o).size() == this.size()) {
-            for (int i = 0; i < size; i += 1) {
-                if (this.get(i) != ((Deque<?>) o).get(i)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -156,18 +140,14 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
      * Sub one in '0' to 'size' circularly.
      */
     private int subOne(int index) {
-        if (index == 0) {
-            return items.length - 1;
-        } else {
-            return (index - 1) % items.length;
-        }
+        return (index - 1 + items.length) % items.length;
     }
 
     /**
      * Check if size equals to deque length.
      */
     private void checkFull() {
-        if (size >= items.length) {
+        if (size == items.length) {
             resize(size * 2);
         }
     }
@@ -176,7 +156,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         int capacity = items.length;
 
         if (capacity > 4 * size && capacity >= 16) {
-            resize(capacity / 2);
+            resize(capacity / 4);
         }
     }
 
@@ -186,7 +166,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private void resize(int capacity) {
         T[] newItems = (T[]) new Object[capacity];
 
-        int index = nextFirst;
+        int index = addOne(nextFirst);
 
         // Copy value in nextFirst to newItems[i].
         for (int i = 0; i < size; i += 1) {
@@ -204,19 +184,49 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         private int index;
 
         ArrayDequeIterator() {
-            index = 0;
+            index = addOne(nextFirst);
         }
 
         public boolean hasNext() {
-            return index != size;
+            return index != nextLast;
         }
 
         public T next() {
-            T item = get(index);
+            T item = items[index];
             index = addOne(index);
 
             return item;
         }
     }
+
+    /**
+     * Returns whether the parameter o is equal to the Deque.
+     */
+    @Override
+    public boolean equals(Object o) {
+        // if o is instance of Deque and their size are same.
+        if (o == null) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        if (o instanceof Deque) {
+            Deque<?> d = (Deque<?>) o;
+
+            if (d.size() == size) {
+                for (int i = 0; i < size; i += 1) {
+                    if (((Deque<?>) o).get(i) != get(i)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
