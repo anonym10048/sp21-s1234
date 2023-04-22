@@ -28,26 +28,4 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
 
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-
-        if (o == this) {
-            return true;
-        }
-
-        if (!(o instanceof MaxArrayDeque)) {
-            return false;
-        }
-
-        if (((MaxArrayDeque<?>) o).max() != max()) {
-            return false;
-        }
-
-        return super.equals(o);
-    }
-
-
 }

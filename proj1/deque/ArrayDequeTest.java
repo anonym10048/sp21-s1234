@@ -2,9 +2,9 @@ package deque;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
-
 
 public class ArrayDequeTest {
 
@@ -119,4 +119,5 @@ public class ArrayDequeTest {
 
         assertFalse(ad2.hasNext());
     }
+
 }

@@ -21,6 +21,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Adds an item of type T in the nextFirst.
      */
+    @Override
     public void addFirst(T item) {
         checkFull();
 
@@ -33,6 +34,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Adds an item of type T in the nextLast.
      */
+    @Override
     public void addLast(T item) {
         checkFull();
 
@@ -45,6 +47,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Returns the number of items in the deque.
      */
+    @Override
     public int size() {
         return size;
     }
@@ -52,6 +55,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Prints the items in the deque from first to last.
      */
+    @Override
     public void printDeque() {
         for (T i : items) {
             System.out.print(i + " ");
@@ -63,6 +67,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Removes and returns the item after the nextFirst.
      */
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -82,6 +87,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Removes and returns the item before the nextLast.
      */
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -101,6 +107,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     /**
      * Gets the item at the given index.
      */
+    @Override
     public T get(int index) {
         // pointer points to the previous
         int itemIndex = addOne(nextFirst);
@@ -110,12 +117,14 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             itemIndex = addOne(itemIndex);
             index -= 1;
         }
+        
         return items[itemIndex];
     }
 
     /**
      * Return an iterator of deque.
      */
+    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
@@ -125,10 +134,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof ArrayDeque && ((ArrayDeque<?>) o)
-                                                          .size() == this.size()) {
+        if (((Deque<?>) o).size() == this.size()) {
             for (int i = 0; i < size; i += 1) {
-                if (items[i] != ((ArrayDeque<?>) o).get(i)) {
+                if (this.get(i) != ((Deque<?>) o).get(i)) {
                     return false;
                 }
             }
@@ -187,9 +195,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         // Find the center position of new capacity.
-        items = newItems;
         nextFirst = capacity - 1;
         nextLast = size;
+        items = newItems;
     }
 
     private class ArrayDequeIterator implements Iterator<T> {

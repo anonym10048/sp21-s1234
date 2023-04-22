@@ -18,7 +18,7 @@ public class LinkedListDequeTest {
      * && is the "and" operation.
      */
     @Test
-    public void addIsEmptySizeTest() {
+    public void IsEmptySizeTest() {
         LinkedListDeque<String> lld1 = new LinkedListDeque<>();
 
         assertTrue("A newly initialized LLDeque should be empty", lld1.isEmpty());
@@ -120,6 +120,38 @@ public class LinkedListDequeTest {
         for (double i = 999999; i > 500000; i--) {
             assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
         }
+    }
+
+
+    @Test
+    public void getTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addLast(0);
+        assertEquals((Integer)0, lld1.get(0));
+    }
+
+    @Test
+    public void getRecursiveTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        lld1.addLast(0);
+        lld1.addLast(1);
+        lld1.removeLast();
+
+        assertEquals((Integer)0, lld1.getRecursive(0));
+    }
+
+    @Test
+    public void equalTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+
+        for (int i = 0; i < 5; i++) {
+            lld1.addFirst(i);
+            ad1.addFirst(i);
+        }
+
+        assertTrue(lld1.equals(ad1));
+        assertTrue(ad1.equals(lld1));
     }
 
     @Test
