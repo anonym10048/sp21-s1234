@@ -122,6 +122,8 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return p.item;
     }
 
+
+
     public void replace(T item, int index) {
         Node p = sentinel;
 
